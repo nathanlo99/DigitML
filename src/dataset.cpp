@@ -35,6 +35,7 @@ unsigned int read_int(FILE* f) {
          | buffer[2] << 8
          | buffer[3] << 0;
 }
+
 #define assert(something, msg, code) \
     do { \
     if (!(something)) { \
@@ -52,8 +53,10 @@ Dataset::Dataset(const char* image_file_name, const char* label_file_name) {
     unsigned int image_magic_number = read_int(m_image_file),
                  label_magic_number = read_int(m_label_file);
     
-    assert(image_magic_number == 0x00000803, "Incorrect magic number in image file\n", 2);
-    assert(label_magic_number == 0x00000801, "Incorrect magic number in label file\n", 2);
+    assert(image_magic_number == 0x00000803, 
+            "Incorrect magic number in image file\n", 2);
+    assert(label_magic_number == 0x00000801, 
+            "Incorrect magic number in label file\n", 2);
 
     unsigned int num_images = read_int(m_image_file),
                  num_labels = read_int(m_label_file);
