@@ -1,16 +1,16 @@
 
 #include "dataset.hpp"
+#include "NN.hpp"
 
 void debug(Example e) {
     static char* shades = " .:-=+*#%@";
 
-    printf("Label: %d\n", e.label);
-    for (unsigned int i = 0; i < 28; i++) {
-        for (unsigned int j = 0; j < 28; j++) {
-            printf("%c", shades[e.data[i][j] / 30]);
-        }
-        printf("\n");
+    printf("Label: %d", e.label);
+    for (unsigned int i = 0; i < 28 * 28; i++) {
+        if (i % 28 == 0) printf("\n");
+        printf("%c", shades[e.data[i] / 30]);
     }
+    printf("\n");
 }
 
 int main() {

@@ -11,7 +11,7 @@
 // A single instance of a training / testing example, a 28 x 28 grayscale 
 // image, and its corresponding (correct) label.
 typedef struct {
-    unsigned char data[28][28];
+    unsigned char data[28 * 28];
     unsigned int label;
 } Example;
 
