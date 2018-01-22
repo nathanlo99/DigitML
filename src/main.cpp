@@ -34,6 +34,7 @@ int main() {
 		nodes.push_back(loadMatrix(e));
         //debug(e);
         counter++;
+        if (counter == 10) break;
     }
     printf("%d\n", counter);
     return 0;

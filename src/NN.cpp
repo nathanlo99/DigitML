@@ -1,9 +1,4 @@
 
-NeuralNetwork::NeuralNetwork():
-    weights1: Matrix<double>(784, 15),
-    weights2: Matrix<double>(15, 10) {
-
-}
 
 double NeuralNetwork::sigmoid(double x) {
     return 1 / (exp(-x) + 1);
@@ -22,7 +17,7 @@ Matrix<unsigned char> NeuralNetwork::feedForward(Matrix<double> input, Matrix<do
 	return result;
 }
 
-unsigned int NeuralNetwork::compute(Matrix<unsigned char> firstLayer) {
+unsigned int NeuralNetwork::compute(Matrix<double> firstLayer) {
 	Matrix<double> hiddenLayer(HIDDEN_SIZE, 1), lastLayer(OUTPUT_SIZE, 1);
 	hiddenLayer = feedForward(firstLayer, firstWeights, firstBias);
 	lastLayer = feedForward(hiddenLayer, secondWeights, secondBias);
@@ -32,5 +27,5 @@ unsigned int NeuralNetwork::compute(Matrix<unsigned char> firstLayer) {
 		if (lastLayer[i][0] > lastLayer[maxValIndex][0])
 			maxValIndex = i;
 	}
-	return maxValIndex; 
-}
+	return maxValIndex;
+} 
