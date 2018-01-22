@@ -12,16 +12,18 @@
 
 class NeuralNetwork {
     private:
-        Matrix<double> weight1, weight2;
-        Matrix<double> bias1, bias2;
+        Matrix<double> weights1 = Matrix<double>(INPUT_SIZE, HIDDEN_SIZE),
+                       weights2 = Matrix<double>(HIDDEN_SIZE, OUTPUT_SIZE);
+        Matrix<double> bias1 = Matrix<double>(1, HIDDEN_SIZE), 
+                       bias2 = Matrix<double>(1, OUTPUT_SIZE);
         
         double sigmoid(double x);
         double sigmoid_prime(double x);
 
     public:
-        NeuralNetwork();
-        NeuralNetwork(const NeuralNetwork& rhs);
-        virtual ~NeuralNetwork();
+        NeuralNetwork() = default;
+        NeuralNetwork(const NeuralNetwork& rhs) = default;
+        virtual ~NeuralNetwork() = default;
 
         unsigned int compute(Example e);
         // void train(Example e);

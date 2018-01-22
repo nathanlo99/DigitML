@@ -22,6 +22,7 @@ int main() {
         Example e = train.get_next();
         debug(e);
         counter++;
+        if (counter == 10) break;
     }
     printf("%d\n", counter);
     return 0;
