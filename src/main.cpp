@@ -16,9 +16,9 @@ void debug(Example e) {
 }
 
 Matrix<unsigned char> loadMatrix(Example& e){
-	Matrix<unsigned char> m(28*28, 1) ;
-	for (int i = 0; i < 28*28; i++){
-		m[i][0] = e.data[i];
+	Matrix<unsigned char> m(28 * 28, 1) ;
+	for (int i = 0; i < 28 * 28; i++){
+	    m[i][0] = e.data[i];
 	}
 	return m;
 }
@@ -31,8 +31,8 @@ int main() {
     int counter;
     while (!train.done()) {
         Example e = train.get_next();
-		nodes.push_back(loadMatrix(e));
-        //debug(e);
+	nodes.push_back(loadMatrix(e));
+        debug(e);
         counter++;
         if (counter == 10) break;
     }
