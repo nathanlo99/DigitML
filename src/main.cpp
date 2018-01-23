@@ -3,9 +3,10 @@
 #include "NN.hpp"
 #include "../lib/matrix.h"
 #include <vector>
+#include <iostream>
 
 void debug(Example e) {
-    static char* shades = " .:-=+*#%@";
+    static std::string shades = " .:-=+*#%@";
 
     printf("Label: %d", e.label);
     for (unsigned int i = 0; i < 28 * 28; i++) {
