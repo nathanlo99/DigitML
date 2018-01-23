@@ -13,14 +13,14 @@ NeuralNetwork::NeuralNetwork() {
     // TODO
 }
 
-inline std::vector<double> NeuralNetwork::feedForward(
+inline std::vector<double> NeuralNetwork::feed_forward(
         const std::vector<double>& input, 
         const Matrix<double>& weights, 
         const std::vector<double>& bias){
     return sigmoid(weights * input - bias);
 }
 
-Matrix<double> NeuralNetwork::weightInit(double maxWeight, unsigned int width, unsigned int height){
+Matrix<double> NeuralNetwork::weight_init(double max_weight, unsigned int width, unsigned int height){
 	Matrix<double> weights(width, height);
 	for (int i = 0; i < weights.rows(); i++) {
 		for (int j = 0; j < weights.cols(); j++) {
@@ -30,22 +30,22 @@ Matrix<double> NeuralNetwork::weightInit(double maxWeight, unsigned int width, u
 }
 
 unsigned int NeuralNetwork::compute(const Example& e) {
-    std::vector<unsigned int> firstLayerBytes(e.data, e.data + INPUT_SIZE);
-    std::vector<double> firstLayer(INPUT_SIZE);
+    std::vector<unsigned int> first_layer_bytes(e.data, e.data + INPUT_SIZE);
+    std::vector<double> first_layer(INPUT_SIZE);
     for (unsigned int i = 0; i < INPUT_SIZE; i++)
-        firstLayer[i] = firstLayerBytes[i] / 255.0;
+        first_layer[i] = first_layer_bytes[i] / 255.0;
 
-    std::vector<double> hiddenLayer(HIDDEN_SIZE), lastLayer(OUTPUT_SIZE);
+    std::vector<double> hidden_layer(HIDDEN_SIZE), last_layer(OUTPUT_SIZE);
 
-    hiddenLayer = feedForward(firstLayer, weights1, bias1);
-    lastLayer = feedForward(hiddenLayer, weights2, bias2);
+    hidden_layer = feed_forward(first_layer, weights1, bias1);
+    last_layer = feed_forward(hidden_layer, weights2, bias2);
 
-    unsigned int maxValIndex = 0;
+    unsigned int max_val_index = 0;
     for (int i = 1; i < 10; i++) {
-	if (lastLayer[i] > lastLayer[maxValIndex])
-	    maxValIndex = i;
+	if (last_layer[i] > last_layer[max_val_index])
+	    max_val_index = i;
     }
-    return maxValIndex;
+    return max_val_index;
 } 
 
 // TODO parallelize (now its really easy to valarray)
