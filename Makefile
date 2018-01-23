@@ -13,3 +13,4 @@ all:
 debug:
 	g++ $(FLAGS) -DDEBUG $(SRC) -o main
 	./main
+
