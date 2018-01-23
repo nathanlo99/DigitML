@@ -81,7 +81,7 @@ Example Dataset::get_next() {
     Example result;
     if (done()) return result;
     result.label = fgetc(m_label_file);
-    assert(fread(&result.data, 28 * 28, 1, m_image_file) != 0,
+    assert(fread(&result.data, 1, 28 * 28, m_image_file) != 0,
             "Attempted to read past EOF\n", 2);
     m_cur_set++;
     return result;
