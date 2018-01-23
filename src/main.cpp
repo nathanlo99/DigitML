@@ -13,7 +13,7 @@ void debug(Example e) {
         if (i % 28 == 0) printf("\n");
         printf("%c", shades[e.data[i] / 30]);
     }
-    printf("\n");
+    printf("\nLabel: %d\n", e.label);
 }
 
 std::vector<double> load_matrix(Example& e) {
@@ -24,15 +24,18 @@ std::vector<double> load_matrix(Example& e) {
 int main() {
     Dataset test("data/t10k-images-idx3-ubyte", "data/t10k-labels-idx1-ubyte");
     Dataset train("data/train-images-idx3-ubyte", "data/train-labels-idx1-ubyte");
-	
-	std::vector<std::vector<double> > nodes;
+    
+    NeuralNetwork n;
+
+    std::vector<std::vector<double> > nodes;
     int counter = 0;
     while (!train.done()) {
         Example e = train.get_next();
 		nodes.push_back(load_matrix(e));
-        // debug(e);
+        debug(e);
         counter++;
-        // if (counter == 10) break;
+        printf("Guess: %d\n", n.compute(e));
+        if (counter == 10) break;
     }
     printf("%d\n", counter);
     return 0;
