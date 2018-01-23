@@ -1,4 +1,7 @@
 
+#include <cstdlib>
+#include <random>
+
 // TODO valarray?
 std::vector<double> operator-(
         const std::vector<double>& lhs, 
@@ -10,23 +13,28 @@ std::vector<double> operator-(
 }
 
 NeuralNetwork::NeuralNetwork() {
-    // TODO
+    weights1 = weightInit(2.0, HIDDEN_SIZE, INPUT_SIZE);
+    weights2 = weightInit(2.0, OUTPUT_SIZE, HIDDEN_SIZE);
 }
 
-inline std::vector<double> NeuralNetwork::feedForward(
+inline std::vector<double> NeuralNetwork::feedForward (
         const std::vector<double>& input, 
         const Matrix<double>& weights, 
-        const std::vector<double>& bias){
+        const std::vector<double>& bias) {
     return sigmoid(weights * input - bias);
 }
 
-Matrix<double> NeuralNetwork::weightInit(double maxWeight, unsigned int width, unsigned int height){
-	Matrix<double> weights(width, height);
-	for (int i = 0; i < weights.rows(); i++) {
-		for (int j = 0; j < weights.cols(); j++) {
-			//weights[i][j] = rand()
-		}
-	}
+Matrix<double> NeuralNetwork::weightInit(double maxWeight, unsigned int rows, unsigned int cols){
+    std::random_device rd;
+    std::mt19937 e2(rd());
+    std::uniform_real_distribution<> dist(-maxWeight, maxWeight);
+
+    Matrix<double> weights(rows, cols);
+    for (int i = 0; i < weights.rows(); i++)
+	for (int j = 0; j < weights.cols(); j++)
+	    weights[i][j] = dist(e2); 
+    
+    return weights;
 }
 
 unsigned int NeuralNetwork::compute(const Example& e) {
@@ -39,7 +47,8 @@ unsigned int NeuralNetwork::compute(const Example& e) {
 
     hiddenLayer = feedForward(firstLayer, weights1, bias1);
     lastLayer = feedForward(hiddenLayer, weights2, bias2);
-
+    
+    
     unsigned int maxValIndex = 0;
     for (int i = 1; i < 10; i++) {
 	if (lastLayer[i] > lastLayer[maxValIndex])
