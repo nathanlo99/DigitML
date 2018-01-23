@@ -7,9 +7,9 @@ FLAGS = $(WARNINGS) -std=c++11
 SRC = src/main.cpp
 
 all: 
-	llvm-g++ $(FLAGS) -Ofast $(SRC) -I include -o main
+	g++ $(FLAGS) -Ofast $(SRC) -I include -o main
 	./main
 
 debug:
-	llvm-g++ $(FLAGS) -DDEBUG $(SRC) -o main
+	g++ $(FLAGS) -DDEBUG $(SRC) -o main
 	./main
