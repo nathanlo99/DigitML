@@ -14,24 +14,23 @@ class NeuralNetwork {
     private:
         Matrix<double> weights1 = Matrix<double>(HIDDEN_SIZE, INPUT_SIZE),
                        weights2 = Matrix<double>(OUTPUT_SIZE, HIDDEN_SIZE);
-        Matrix<double> bias1 = Matrix<double>(HIDDEN_SIZE, 1), 
-                       bias2 = Matrix<double>(OUTPUT_SIZE, 1);
+        std::vector<double> bias1 = std::vector<double>(HIDDEN_SIZE), 
+                       bias2 = std::vector<double>(OUTPUT_SIZE);
         
-        Matrix<double> sigmoid(Matrix<double> x);
-        Matrix<double> sigmoid_prime(Matrix<double> x);
-	
-        unsigned int compute(Matrix<double> firstLayer);
+        std::vector<double> sigmoid(const std::vector<double>& x);
+        std::vector<double> sigmoid_prime(const std::vector<double>& x);
 
-	Matrix<double> feedForward(Matrix<double> input, 
-                Matrix<double> weights, 
-                Matrix<double> bias);
+        std::vector<double> feedForward(
+                const std::vector<double>& input, 
+                const Matrix<double>& weights, 
+                const std::vector<double>& bias);
 
     public:
         NeuralNetwork();
         NeuralNetwork(const NeuralNetwork& rhs) = default;
         virtual ~NeuralNetwork() = default;
         
-        unsigned int compute(Example e);
+        unsigned int compute(const Example& e);
         // void train(Example e);
         
 };

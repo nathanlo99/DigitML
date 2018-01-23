@@ -1,41 +1,57 @@
 
+// TODO valarray?
+std::vector<double> operator-(
+        const std::vector<double>& lhs, 
+        const std::vector<double>& rhs) {
+    std::vector<double> result(lhs.size());
+    for (unsigned int i = 0; i < lhs.size(); i++)
+        result[i] = lhs[i] - rhs[i];
+    return result;
+}
+
 NeuralNetwork::NeuralNetwork() {
     // TODO
 }
 
-Matrix<double> NeuralNetwork::feedForward(Matrix<double> input, Matrix<double> weights, Matrix<double> bias){
+inline std::vector<double> NeuralNetwork::feedForward(
+        const std::vector<double>& input, 
+        const Matrix<double>& weights, 
+        const std::vector<double>& bias){
     return sigmoid(weights * input - bias);
 }
 
-unsigned int NeuralNetwork::compute(Matrix<double> firstLayer) {
-    Matrix<double> hiddenLayer(HIDDEN_SIZE, 1), lastLayer(OUTPUT_SIZE, 1);
+unsigned int NeuralNetwork::compute(const Example& e) {
+    std::vector<unsigned int> firstLayerBytes(e.data, e.data + INPUT_SIZE);
+    std::vector<double> firstLayer(INPUT_SIZE);
+    for (unsigned int i = 0; i < INPUT_SIZE; i++)
+        firstLayer[i] = firstLayerBytes[i] / 255.0;
+
+    std::vector<double> hiddenLayer(HIDDEN_SIZE), lastLayer(OUTPUT_SIZE);
     hiddenLayer = feedForward(firstLayer, weights1, bias1);
     lastLayer = feedForward(hiddenLayer, weights2, bias2);
 
-    int maxValIndex = 0;
+    unsigned int maxValIndex = 0;
     for (int i = 1; i < 10; i++) {
-	if (lastLayer[0][i] > lastLayer[0][maxValIndex])
+	if (lastLayer[i] > lastLayer[maxValIndex])
 	    maxValIndex = i;
     }
     return maxValIndex;
 } 
 
-// TODO parallelize
-Matrix<double> NeuralNetwork::sigmoid(Matrix<double> x) {
-    Matrix<double> result(x.rows(), x.cols());
-    for (unsigned int i = 0; i < result.rows(); i++)
-        for (unsigned int j = 0; j < result.cols(); j++)
-            result[i][j] = 1 / (exp(-x[i][j]) + 1);
+// TODO parallelize (now its really easy to valarray)
+std::vector<double> NeuralNetwork::sigmoid(const std::vector<double>& x) {
+    std::vector<double> result(x.size());
+    for (unsigned int i = 0; i < x.size(); i++)
+        result[i] = 1 / (1 + exp(-x[i]));
     return result;
 }
 
-Matrix<double> NeuralNetwork::sigmoid_prime(Matrix<double> x) {
-    Matrix<double> result(x.rows(), x.cols());
-    for (unsigned int i = 0; i < result.rows(); i++)
-        for (unsigned int j = 0; j < result.cols(); j++) {
-            const double t = exp(x[i][j]);
-            result[i][j] = t / ((1 + t) * (1 + t));
-        }
+std::vector<double> NeuralNetwork::sigmoid_prime(const std::vector<double>& x) {
+    std::vector<double> result(x.size());
+    for (unsigned int i = 0; i < result.size(); i++) {
+        const double t = exp(x[i]);
+        result[i] = t / ((1 + t) * (1 + t));
+    }
     return result;
 }
 

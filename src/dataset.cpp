@@ -29,7 +29,7 @@ source: http://yann.lecun.com/exdb/mnist/
 //TODO move somewhere better?
 unsigned int read_int(FILE* f) {
     static unsigned char buffer[4];
-    fread(&buffer, 4, 1, f);
+    fread(&buffer, 1, 4, f);
     return buffer[0] << 24 
          | buffer[1] << 16
          | buffer[2] << 8
@@ -81,7 +81,7 @@ Example Dataset::get_next() {
     Example result;
     if (done()) return result;
     result.label = fgetc(m_label_file);
-    assert(fread(&result.data, 1, 28 * 28, m_image_file) != 0,
+    assert(fread(&result.data, 1, 28 * 28, m_image_file) == 28 * 28,
             "Attempted to read past EOF\n", 2);
     m_cur_set++;
     return result;

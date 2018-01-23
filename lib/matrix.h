@@ -23,24 +23,24 @@ template <typename T> class Matrix {
         // Standard mathematical operations
         Matrix<T>& operator=(const Matrix<T>& rhs);
 
-        Matrix<T> operator+(const Matrix<T>& rhs);
+        Matrix<T> operator+(const Matrix<T>& rhs) const;
         Matrix<T>& operator+=(const Matrix<T>& rhs);
-        Matrix<T> operator-(const Matrix<T>& rhs);
+        Matrix<T> operator-(const Matrix<T>& rhs) const;
         Matrix<T>& operator-=(const Matrix<T>& rhs);
-        Matrix<T> operator*(const Matrix<T>& rhs);
+        Matrix<T> operator*(const Matrix<T>& rhs) const;
         Matrix<T>& operator*=(const Matrix<T>& rhs);
-        Matrix<T> transpose();
+        Matrix<T> transpose() const;
 
-        Matrix<T> operator+(const T& rhs);
-        Matrix<T> operator-(const T& rhs);
-        Matrix<T> operator*(const T& rhs);
-        Matrix<T> operator/(const T& rhs);
+        Matrix<T> operator+(const T& rhs) const;
+        Matrix<T> operator-(const T& rhs) const;
+        Matrix<T> operator*(const T& rhs) const;
+        Matrix<T> operator/(const T& rhs) const;
     
-        Matrix<T> hadamard(const Matrix<T>& rhs);
-        Matrix<T> kronecker(const Matrix<T>& rhs);
-        Matrix<T> concat(const Matrix<T>& rhs);
+        Matrix<T> hadamard(const Matrix<T>& rhs) const;
+        Matrix<T> kronecker(const Matrix<T>& rhs) const;
+        Matrix<T> concat(const Matrix<T>& rhs) const;
 
-        std::vector<T> operator*(const std::vector<T>& rhs);
+        std::vector<T> operator*(const std::vector<T>& rhs) const;
         std::vector<T> diag_vec();
         
         // Included this so users can do m[0][0] rather than m(0, 0)

@@ -9,7 +9,7 @@ void warn(const char* func, const char* message) {}
 
 // Standard constructor
 template<typename T>
-Matrix<T>::Matrix(unsigned int rows, unsigned int cols): 
+Matrix<T>::Matrix(const unsigned int rows, const unsigned int cols): 
     m_rows(rows), m_cols(cols) {
     m_data.resize(rows);
     for (unsigned int i = 0; i < rows; i++) 
@@ -55,7 +55,7 @@ Matrix<T>& Matrix<T>::operator=(const Matrix<T>& rhs) {
 //       BUT most of these can be parallelized using valarrays
 
 template<typename T>
-Matrix<T> Matrix<T>::operator+(const Matrix<T>& rhs) {
+Matrix<T> Matrix<T>::operator+(const Matrix<T>& rhs) const {
     if (m_rows != rhs.m_rows)
         warn("Matrix::operator+", "Inconsistent number of rows");
     if (m_cols != rhs.m_cols)
@@ -85,7 +85,7 @@ Matrix<T>& Matrix<T>::operator+=(const Matrix<T>& rhs) {
 }
 
 template<typename T>
-Matrix<T> Matrix<T>::operator-(const Matrix<T>& rhs) {
+Matrix<T> Matrix<T>::operator-(const Matrix<T>& rhs) const {
     if (m_rows != rhs.m_rows)
         warn("Matrix::operator-", "Inconsistent number of rows");
     if (m_cols != rhs.m_cols)
@@ -115,7 +115,7 @@ Matrix<T>& Matrix<T>::operator-=(const Matrix<T>& rhs) {
 }
 
 template<typename T>
-Matrix<T> Matrix<T>::operator*(const Matrix<T>& rhs) {
+Matrix<T> Matrix<T>::operator*(const Matrix<T>& rhs) const {
     if (m_cols != rhs.m_rows)
         warn("Matrix::operator*", "Multiplying these won't work");
 
@@ -143,7 +143,7 @@ Matrix<T>& Matrix<T>::operator*=(const Matrix<T>& rhs) {
 
 // TODO check loop order for cache locality??
 template<typename T>
-Matrix<T> Matrix<T>::transpose() {
+Matrix<T> Matrix<T>::transpose() const {
     Matrix<T> result(m_cols, m_rows);
     for (int i = 0; i < m_cols; i++) {
         for (int j = 0; j < m_rows; j++) {
@@ -155,7 +155,7 @@ Matrix<T> Matrix<T>::transpose() {
 // Scalar operations
 #define do_op(op) \
 template<typename T> \
-Matrix<T> Matrix<T>::operator op (const T& rhs) { \
+Matrix<T> Matrix<T>::operator op (const T& rhs) const { \
     Matrix<T> result(m_rows, m_cols); \
     for (int i = 0; i < m_rows; i++) \
         for (int j = 0; j < m_cols; j++) \
@@ -169,7 +169,7 @@ do_op(/);
 #undef do_op
 
 template<typename T>
-Matrix<T> Matrix<T>::hadamard(const Matrix<T>& rhs) {
+Matrix<T> Matrix<T>::hadamard(const Matrix<T>& rhs) const {
     if (m_rows != rhs.m_rows)
         warn("Matrix::hadamard", "Number of rows don't match up");
     if (m_cols != rhs.m_cols)
@@ -184,7 +184,7 @@ Matrix<T> Matrix<T>::hadamard(const Matrix<T>& rhs) {
 }
 
 template<typename T>
-Matrix<T> Matrix<T>::kronecker(const Matrix<T>& rhs) {
+Matrix<T> Matrix<T>::kronecker(const Matrix<T>& rhs) const {
     if (m_rows != 1 || rhs.m_cols != 1)
         warn("Matrix::kronecker", "Arbitrary matrix kronecker not yet implemented");
     
@@ -197,7 +197,7 @@ Matrix<T> Matrix<T>::kronecker(const Matrix<T>& rhs) {
 }
 
 template<typename T>
-Matrix<T> Matrix<T>::concat(const Matrix<T>& rhs) {
+Matrix<T> Matrix<T>::concat(const Matrix<T>& rhs) const {
     if (m_rows != rhs.m_rows)
         warn("Matrix::concat", "Number of rows doesn't match up");
 
@@ -213,6 +213,24 @@ Matrix<T> Matrix<T>::concat(const Matrix<T>& rhs) {
     return result;
 }
 
+template<typename T>
+std::vector<T> Matrix<T>::operator*(const std::vector<T>& rhs) const {
+    if (rhs.size() != m_cols)
+        warn("Matrix::operator*(vector)", "Cannot multiply vector");
+
+    std::vector<T> result;
+    result.resize(m_rows);
+    for (unsigned int i = 0; i < m_rows; i++) {
+        double sum = 0.0;
+        for (unsigned int j = 0; j < m_cols; j++) {
+            sum += m_data[i][j] * rhs[j];
+        }
+        result[i] = sum;
+    }
+    return result;
+}
+
+
 // Accessors
 template<typename T>
 std::vector<T>& Matrix<T>::operator[] (const unsigned int x) {
@@ -220,8 +238,7 @@ std::vector<T>& Matrix<T>::operator[] (const unsigned int x) {
 }
 
 template<typename T>
-const std::vector<T>& Matrix<T>::operator[] (const unsigned int x) const
-{
+const std::vector<T>& Matrix<T>::operator[] (const unsigned int x) const {
     return m_data[x];
 }
 
