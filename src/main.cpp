@@ -16,7 +16,7 @@ void debug(Example e) {
     printf("\n");
 }
 
-std::vector<double> loadMatrix(Example& e) {
+std::vector<double> load_matrix(Example& e) {
     std::vector<double> result(e.data, e.data + 28 * 28);
     return result;
 }
@@ -25,11 +25,11 @@ int main() {
     Dataset test("data/t10k-images-idx3-ubyte", "data/t10k-labels-idx1-ubyte");
     Dataset train("data/train-images-idx3-ubyte", "data/train-labels-idx1-ubyte");
 	
-    std::vector<std::vector<double> > nodes;
+	std::vector<std::vector<double> > nodes;
     int counter = 0;
     while (!train.done()) {
         Example e = train.get_next();
-	nodes.push_back(loadMatrix(e));
+		nodes.push_back(load_matrix(e));
         // debug(e);
         counter++;
         // if (counter == 10) break;

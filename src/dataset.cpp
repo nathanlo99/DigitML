@@ -28,12 +28,13 @@ source: http://yann.lecun.com/exdb/mnist/
 
 //TODO move somewhere better?
 unsigned int read_int(FILE* f) {
-    static unsigned char buffer[4];
+	static unsigned char buffer[4];
     fread(&buffer, 1, 4, f);
-    return buffer[0] << 24 
-         | buffer[1] << 16
+	//bitshift in direction of most significant bit to convert little endian to big endian
+    return buffer[3] << 0 
          | buffer[2] << 8
-         | buffer[3] << 0;
+         | buffer[1] << 16
+         | buffer[0] << 24;
 }
 
 #define assert(something, msg, code) \
