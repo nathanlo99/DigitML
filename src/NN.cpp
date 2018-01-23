@@ -20,6 +20,15 @@ inline std::vector<double> NeuralNetwork::feedForward(
     return sigmoid(weights * input - bias);
 }
 
+Matrix<double> NeuralNetwork::weightInit(double maxWeight, unsigned int width, unsigned int height){
+	Matrix<double> weights(width, height);
+	for (int i = 0; i < weights.rows(); i++) {
+		for (int j = 0; j < weights.cols(); j++) {
+			//weights[i][j] = rand()
+		}
+	}
+}
+
 unsigned int NeuralNetwork::compute(const Example& e) {
     std::vector<unsigned int> firstLayerBytes(e.data, e.data + INPUT_SIZE);
     std::vector<double> firstLayer(INPUT_SIZE);
@@ -27,6 +36,7 @@ unsigned int NeuralNetwork::compute(const Example& e) {
         firstLayer[i] = firstLayerBytes[i] / 255.0;
 
     std::vector<double> hiddenLayer(HIDDEN_SIZE), lastLayer(OUTPUT_SIZE);
+
     hiddenLayer = feedForward(firstLayer, weights1, bias1);
     lastLayer = feedForward(hiddenLayer, weights2, bias2);
 

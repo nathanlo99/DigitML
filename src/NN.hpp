@@ -17,8 +17,11 @@ class NeuralNetwork {
         std::vector<double> bias1 = std::vector<double>(HIDDEN_SIZE), 
                        bias2 = std::vector<double>(OUTPUT_SIZE);
         
+
         std::vector<double> sigmoid(const std::vector<double>& x);
         std::vector<double> sigmoid_prime(const std::vector<double>& x);
+		
+	Matrix<double> weightInit(double maxWeight, unsigned int width, unsigned int height);	
 
         std::vector<double> feedForward(
                 const std::vector<double>& input, 
