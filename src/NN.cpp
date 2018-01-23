@@ -17,6 +17,15 @@ Matrix<unsigned char> NeuralNetwork::feedForward(Matrix<double> input, Matrix<do
 	return result;
 }
 
+Matrix<double> NeuralNetwork::weightInit(double maxWeight, unsigned int width, unsigned int height){
+	Matrix<double> weights(width, height);
+	for (int i = 0; i < weights.rows(); i++) {
+		for (int j = 0; j < weights.cols(); j++) {
+			//weights[i][j] = rand()
+		}
+	}
+}
+
 unsigned int NeuralNetwork::compute(Matrix<double> firstLayer) {
 	Matrix<double> hiddenLayer(HIDDEN_SIZE, 1), lastLayer(OUTPUT_SIZE, 1);
 	hiddenLayer = feedForward(firstLayer, firstWeights, firstBias);

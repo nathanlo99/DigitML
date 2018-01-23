@@ -19,8 +19,9 @@ class NeuralNetwork {
         
         double sigmoid(double x);
         double sigmoid_prime(double x);
-		
-		Matrix<unsigned char> feedForward(Matrix<unsigned char> input, Matrix<double> weights, Matrix<double> bias);
+	
+		Matrix<double> weightInit(double maxWeight, unsigned int width, unsigned int height); 
+		Matrix<double> feedForward(Matrix<double> input, Matrix<double> weights, Matrix<double> bias);
     public:
         NeuralNetwork() = default;
         NeuralNetwork(const NeuralNetwork& rhs) = default;
