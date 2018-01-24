@@ -7,8 +7,6 @@
 
 void debug(Example e) {
     static std::string shades = " .:-=+*#%@";
-
-    printf("Label: %d", e.label);
     for (unsigned int i = 0; i < 28 * 28; i++) {
         if (i % 28 == 0) printf("\n");
         printf("%c", shades[e.data[i] / 30]);
@@ -31,7 +29,7 @@ int main() {
     int counter = 0;
     while (!train.done()) {
         Example e = train.get_next();
-		nodes.push_back(load_matrix(e));
+        nodes.push_back(load_matrix(e));
         debug(e);
         counter++;
         printf("Guess: %d\n", n.compute(e));

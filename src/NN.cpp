@@ -13,8 +13,8 @@ std::vector<double> operator-(
 }
 
 NeuralNetwork::NeuralNetwork() {
-    weights1 = weightInit(2.0, HIDDEN_SIZE, INPUT_SIZE);
-    weights2 = weightInit(2.0, OUTPUT_SIZE, HIDDEN_SIZE);
+    weights1 = weight_init(2.0, HIDDEN_SIZE, INPUT_SIZE);
+    weights2 = weight_init(2.0, OUTPUT_SIZE, HIDDEN_SIZE);
 }
 
 inline std::vector<double> NeuralNetwork::feed_forward(
