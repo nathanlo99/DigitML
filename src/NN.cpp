@@ -4,7 +4,7 @@
 
 // TODO valarray?
 std::vector<double> operator-(
-        const std::vector<double>& lhs, 
+        const std::vector<double>& lhs,
         const std::vector<double>& rhs) {
     std::vector<double> result(lhs.size());
     for (unsigned int i = 0; i < lhs.size(); i++)
@@ -18,8 +18,8 @@ NeuralNetwork::NeuralNetwork() {
 }
 
 inline std::vector<double> NeuralNetwork::feed_forward(
-        const std::vector<double>& input, 
-        const Matrix<double>& weights, 
+        const std::vector<double>& input,
+        const Matrix<double>& weights,
         const std::vector<double>& bias) {
     return sigmoid(weights * input - bias);
 }
@@ -31,9 +31,9 @@ Matrix<double> NeuralNetwork::weight_init(double maxWeight, unsigned int rows, u
 
     Matrix<double> weights(rows, cols);
     for (int i = 0; i < weights.rows(); i++)
-	for (int j = 0; j < weights.cols(); j++)
-	    weights[i][j] = dist(e2); 
-    
+        for (int j = 0; j < weights.cols(); j++)
+	       weights[i][j] = dist(e2);
+
     return weights;
 }
 
@@ -50,11 +50,12 @@ unsigned int NeuralNetwork::compute(const Example& e) {
 
     unsigned int max_val_index = 0;
     for (int i = 1; i < 10; i++) {
-	if (last_layer[i] > last_layer[max_val_index])
-	    max_val_index = i;
+	    if (last_layer[i] > last_layer[max_val_index])
+	       max_val_index = i;
     }
+    
     return max_val_index;
-} 
+}
 
 // TODO parallelize (now its really easy to valarray)
 std::vector<double> NeuralNetwork::sigmoid(const std::vector<double>& x) {
@@ -72,4 +73,3 @@ std::vector<double> NeuralNetwork::sigmoid_prime(const std::vector<double>& x) {
     }
     return result;
 }
-
