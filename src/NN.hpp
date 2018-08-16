@@ -14,27 +14,32 @@ class NeuralNetwork {
     private:
         Matrix<double> weights1 = Matrix<double>(HIDDEN_SIZE, INPUT_SIZE),
                        weights2 = Matrix<double>(OUTPUT_SIZE, HIDDEN_SIZE);
-        std::vector<double> bias1 = std::vector<double>(HIDDEN_SIZE), 
-       		                bias2 = std::vector<double>(OUTPUT_SIZE);
-        
+
         std::vector<double> sigmoid(const std::vector<double>& x);
         std::vector<double> sigmoid_prime(const std::vector<double>& x);
-		
-		Matrix<double> weight_init(double max_weight, unsigned int width, unsigned int height);	
+
+		Matrix<double> weight_init(double max_weight, unsigned int width, unsigned int height);
 
         std::vector<double> feed_forward(
-                const std::vector<double>& input, 
-                const Matrix<double>& weights, 
-                const std::vector<double>& bias);
+                const std::vector<double>& input,
+                const Matrix<double>& weights);
 
     public:
         NeuralNetwork();
         NeuralNetwork(const NeuralNetwork& rhs) = default;
         virtual ~NeuralNetwork() = default;
-        
+
+        void train(
+                const unsigned int iterations,
+                const Matrix<unsigned char>& images,
+                const Matrix<unsigned char>& labels);
+        void compute_gradients_and_cost(
+                const Matrix<unsigned char>& images,
+                const Matrix<unsigned char>& labels,
+                Matrix<double>& gradient_1,
+                Matrix<double>& gradient_2,
+                double& cost);
         unsigned int compute(const Example& e);
-        // void train(Example e);
-        
 };
 
 #include "NN.cpp"

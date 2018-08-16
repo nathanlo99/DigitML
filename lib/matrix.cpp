@@ -16,11 +16,31 @@ Matrix<T>::Matrix(const unsigned int rows, const unsigned int cols):
         m_data[i].resize(cols);
 }
 
+// Standard constructor with initialization value
+template<typename T>
+Matrix<T>::Matrix(const unsigned int rows, const unsigned int cols, const double init_val):
+    m_rows(rows), m_cols(cols) {
+    m_data.resize(rows);
+    for (unsigned int i = 0; i < rows; i++) {
+        m_data[i] = std::vector<double>(cols, init_val);
+    }
+}
+
 // Copy constructor
 template<typename T>
 Matrix<T>::Matrix(const Matrix<T>& rhs):
     m_data(rhs.m_data), m_rows(rhs.m_rows), m_cols(rhs.m_cols)
 { /* initialization list suffices */ }
+
+// Column vector copy constructor
+template<typename T>
+Matrix<T>::Matrix(const std::vector<T>& rhs):
+    m_rows(rhs.size()), m_cols(1) {
+    m_data.resize(m_rows);
+    for (unsigned int i = 0; i < m_rows; i++) {
+        m_data[i] = std::vector<T>(1, rhs[i]);
+    }
+}
 
 // Destructor
 template<typename T>
@@ -150,6 +170,7 @@ Matrix<T> Matrix<T>::transpose() const {
             result[i][j] = m_data[j][i];
         }
     }
+    return result;
 }
 
 // Scalar operations
